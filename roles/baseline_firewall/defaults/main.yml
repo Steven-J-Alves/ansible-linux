@@ -1,0 +1,21 @@
+---
+# Public API for baseline_firewall. All variables prefixed baseline_firewall_.
+# ⚠  LOCKOUT RISK: port 22 (or baseline_ssh_port) MUST be in allowed_ports before applying.
+
+# Enable the firewall. RECOMMENDED.
+baseline_firewall_enabled: true
+
+# TCP ports to allow inbound. ENVIRONMENT-DEPENDENT.
+# Always include the SSH port to avoid locking yourself out.
+baseline_firewall_allowed_tcp_ports:
+  - 22
+  - 443
+
+# UDP ports to allow inbound. ENVIRONMENT-DEPENDENT.
+baseline_firewall_allowed_udp_ports: []
+
+# Default inbound policy. SECURITY-HARDENED.
+baseline_firewall_default_input_policy: "deny"
+
+# Default outbound policy. DEFAULT. Allow all outbound traffic.
+baseline_firewall_default_output_policy: "allow"

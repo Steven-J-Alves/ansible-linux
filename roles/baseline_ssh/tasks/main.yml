@@ -1,0 +1,14 @@
+---
+# ⚠  LOCKOUT RISK: This role modifies sshd_config. Run --check first.
+# The handler restarts sshd only after the config passes `sshd -t` validation.
+
+- name: Configure sshd
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0600"
+    backup: true
+    validate: "sshd -t -f %s"
+  notify: restart sshd

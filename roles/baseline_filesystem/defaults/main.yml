@@ -1,0 +1,14 @@
+---
+# Public API for baseline_filesystem. All variables prefixed baseline_filesystem_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# Set restrictive permissions on sensitive files. SECURITY-HARDENED.
+baseline_filesystem_secure_permissions: true
+
+# List of SUID/SGID files to explicitly remove. SECURITY-HARDENED.
+# Leave empty to only audit (report) without removing.
+baseline_filesystem_remove_suid: []
+
+# Ensure /tmp is mounted noexec,nosuid,nodev. SECURITY-HARDENED.
+# Set false if container workloads or scripts require exec on /tmp.
+baseline_filesystem_tmp_hardening: false

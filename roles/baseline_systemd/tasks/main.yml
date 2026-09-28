@@ -1,0 +1,51 @@
+---
+# systemd tuning — cross-family. No family dispatch required.
+
+- name: Disable specified services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop: "{{ baseline_systemd_disable_services }}"
+  when: baseline_systemd_disable_services | length > 0
+  register: baseline_systemd_disable_result
+  failed_when:
+    - baseline_systemd_disable_result.failed
+    - '"Could not find the requested service" not in (baseline_systemd_disable_result.msg | default(""))'
+    - '"not loaded" not in (baseline_systemd_disable_result.msg | default(""))'
+
+- name: Mask specified services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    masked: true
+  loop: "{{ baseline_systemd_mask_services }}"
+  when: baseline_systemd_mask_services | length > 0
+
+- name: Set DefaultTimeoutStopSec in system.conf
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: "^#?DefaultTimeoutStopSec="
+    line: "DefaultTimeoutStopSec={{ baseline_systemd_default_timeout_stop_sec }}"
+    backup: true
+
+- name: Restrict coredump storage
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/coredump.conf
+    regexp: "^#?Storage="
+    line: "Storage=none"
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+  when: baseline_systemd_restrict_coredump
+
+- name: Restrict coredump process size
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/coredump.conf
+    regexp: "^#?ProcessSizeMax="
+    line: "ProcessSizeMax=0"
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+  when: baseline_systemd_restrict_coredump

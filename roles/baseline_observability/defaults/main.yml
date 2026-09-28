@@ -1,0 +1,25 @@
+---
+# Public API for baseline_observability. All variables prefixed baseline_observability_.
+
+# Common diagnostic packages to install on every host. RECOMMENDED.
+# These are passive tools — they do not open ports or run daemons.
+baseline_observability_packages_common:
+  - sysstat
+  - iotop
+  - strace
+  - tcpdump
+  - lsof
+  - net-tools
+  - dnsutils
+
+# Debian-specific diagnostic packages. DEFAULT.
+baseline_observability_packages_debian:
+  - traceroute
+  - nmap
+  - netcat-openbsd
+
+# RedHat-specific diagnostic packages. DEFAULT.
+baseline_observability_packages_redhat:
+  - traceroute
+  - nmap
+  - nc

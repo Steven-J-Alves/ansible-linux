@@ -1,0 +1,26 @@
+---
+# Public API for baseline_audit. All variables prefixed baseline_audit_.
+
+# Install and enable auditd. SECURITY-HARDENED.
+baseline_audit_auditd_enabled: true
+
+# Maximum log file size in MB before rotation. DEFAULT.
+baseline_audit_max_log_file: 50
+
+# Action on log rotation: rotate | keep_logs | email | exec | suspend | single | halt. DEFAULT.
+baseline_audit_max_log_file_action: "rotate"
+
+# Number of rotated logs to keep. DEFAULT.
+baseline_audit_num_logs: 5
+
+# Install and enable fail2ban. SECURITY-HARDENED.
+baseline_audit_fail2ban_enabled: true
+
+# fail2ban: max retries before ban. SECURITY-HARDENED.
+baseline_audit_fail2ban_maxretry: 5
+
+# fail2ban: ban time in seconds. SECURITY-HARDENED.
+baseline_audit_fail2ban_bantime: 3600
+
+# fail2ban: window for counting failures. DEFAULT.
+baseline_audit_fail2ban_findtime: 600

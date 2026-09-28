@@ -1,0 +1,29 @@
+---
+- name: Verify baseline_filesystem
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check /etc/passwd permissions
+      ansible.builtin.stat:
+        path: /etc/passwd
+      register: baseline_filesystem_passwd_stat
+
+    - name: Assert /etc/passwd mode is 0644
+      ansible.builtin.assert:
+        that:
+          - baseline_filesystem_passwd_stat.stat.mode == '0644'
+          - baseline_filesystem_passwd_stat.stat.pw_name == 'root'
+        fail_msg: "/etc/passwd has wrong permissions: {{ baseline_filesystem_passwd_stat.stat.mode }}"
+
+    - name: Check /etc/group permissions
+      ansible.builtin.stat:
+        path: /etc/group
+      register: baseline_filesystem_group_stat
+
+    - name: Assert /etc/group mode is 0644
+      ansible.builtin.assert:
+        that:
+          - baseline_filesystem_group_stat.stat.mode == '0644'
+        fail_msg: "/etc/group has wrong permissions: {{ baseline_filesystem_group_stat.stat.mode }}"

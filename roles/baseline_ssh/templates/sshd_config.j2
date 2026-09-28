@@ -1,0 +1,43 @@
+# Managed by Ansible — baseline_ssh role.
+# ⚠  Do not edit manually — changes will be overwritten.
+
+Port {{ baseline_ssh_port }}
+Protocol 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Authentication
+PermitRootLogin {{ baseline_ssh_permit_root_login }}
+PasswordAuthentication {{ baseline_ssh_password_authentication }}
+PermitEmptyPasswords {{ baseline_ssh_permit_empty_passwords }}
+MaxAuthTries {{ baseline_ssh_max_auth_tries }}
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+
+{% if baseline_ssh_allow_users | length > 0 %}
+AllowUsers {{ baseline_ssh_allow_users | join(' ') }}
+{% endif %}
+{% if baseline_ssh_allow_groups | length > 0 %}
+AllowGroups {{ baseline_ssh_allow_groups | join(' ') }}
+{% endif %}
+
+# Session
+ClientAliveInterval {{ baseline_ssh_client_alive_interval }}
+ClientAliveCountMax {{ baseline_ssh_client_alive_count_max }}
+X11Forwarding {{ baseline_ssh_x11_forwarding }}
+AllowAgentForwarding {{ baseline_ssh_agent_forwarding }}
+
+# Crypto
+Ciphers {{ baseline_ssh_ciphers }}
+MACs {{ baseline_ssh_macs }}
+KexAlgorithms {{ baseline_ssh_kex_algorithms }}
+
+# Logging
+SyslogFacility AUTH
+LogLevel VERBOSE
+
+# Misc
+UsePAM yes
+PrintLastLog yes
+Banner none

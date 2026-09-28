@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: baseline_firewall
+  author: kriolu-kloud
+  description: Configures UFW on Debian and firewalld on RedHat. Always run with --check first.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+    - name: Amazon
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - linux
+
+dependencies: []

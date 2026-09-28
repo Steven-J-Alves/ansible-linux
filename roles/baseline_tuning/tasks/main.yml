@@ -1,0 +1,19 @@
+---
+# Performance tuning sysctl — cross-family.
+
+- name: Apply performance sysctl parameters
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value | string }}"
+    state: present
+    reload: true
+    sysctl_file: /etc/sysctl.d/99-baseline-tuning.conf
+  loop: "{{ baseline_tuning_sysctl_params | dict2items }}"
+
+- name: Set I/O scheduler for block device
+  ansible.builtin.shell:
+    cmd: "echo {{ baseline_tuning_io_scheduler }} > /sys/block/{{ baseline_tuning_io_block_device }}/queue/scheduler"
+  when:
+    - baseline_tuning_io_block_device != ""
+    - baseline_tuning_io_scheduler != ""
+  changed_when: true

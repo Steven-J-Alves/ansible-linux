@@ -1,0 +1,44 @@
+---
+# File descriptor and process limits — identical on Debian and RedHat families.
+# Changes take effect on next login / new process spawn.
+
+- name: Set nofile limits in /etc/security/limits.conf
+  ansible.builtin.blockinfile:
+    path: /etc/security/limits.conf
+    marker: "# {mark} ANSIBLE MANAGED — baseline_limits nofile"
+    block: |
+      {{ baseline_limits_target_user }} soft nofile {{ baseline_limits_nofile_soft }}
+      {{ baseline_limits_target_user }} hard nofile {{ baseline_limits_nofile_hard }}
+    backup: true
+
+- name: Set nproc limits in /etc/security/limits.conf
+  ansible.builtin.blockinfile:
+    path: /etc/security/limits.conf
+    marker: "# {mark} ANSIBLE MANAGED — baseline_limits nproc"
+    block: |
+      {{ baseline_limits_target_user }} soft nproc {{ baseline_limits_nproc_soft }}
+      {{ baseline_limits_target_user }} hard nproc {{ baseline_limits_nproc_hard }}
+    backup: true
+
+- name: Set memlock limits in /etc/security/limits.conf
+  ansible.builtin.blockinfile:
+    path: /etc/security/limits.conf
+    marker: "# {mark} ANSIBLE MANAGED — baseline_limits memlock"
+    block: |
+      {{ baseline_limits_target_user }} soft memlock {{ baseline_limits_memlock_soft }}
+      {{ baseline_limits_target_user }} hard memlock {{ baseline_limits_memlock_hard }}
+    backup: true
+
+- name: Set systemd DefaultLimitNOFILE
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: "^#?DefaultLimitNOFILE="
+    line: "DefaultLimitNOFILE={{ baseline_limits_nofile_hard }}"
+    backup: true
+
+- name: Set systemd DefaultLimitNPROC
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: "^#?DefaultLimitNPROC="
+    line: "DefaultLimitNPROC={{ baseline_limits_nproc_hard }}"
+    backup: true

@@ -1,0 +1,20 @@
+---
+# Public API for baseline_limits. All variables prefixed baseline_limits_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# Maximum open file descriptors per process. RECOMMENDED.
+# 65536 is safe for most application servers.
+baseline_limits_nofile_soft: 65536
+baseline_limits_nofile_hard: 65536
+
+# Maximum number of processes per user. RECOMMENDED.
+baseline_limits_nproc_soft: 4096
+baseline_limits_nproc_hard: 4096
+
+# Maximum locked memory (kB). DEFAULT. -1 = unlimited (needed for JVM, Elasticsearch).
+baseline_limits_memlock_soft: -1
+baseline_limits_memlock_hard: -1
+
+# Apply limits to all users. DEFAULT.
+# Override with a specific username for targeted limits.
+baseline_limits_target_user: "*"

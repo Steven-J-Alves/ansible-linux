@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: baseline_users
+  author: kriolu-kloud
+  description: Creates a deploy user with SSH key auth, configures sudo, and enforces password policy via login.defs.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+    - name: Amazon
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - linux
+
+dependencies: []

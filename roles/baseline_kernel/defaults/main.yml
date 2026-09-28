@@ -1,0 +1,31 @@
+---
+# Public API for baseline_kernel. All variables prefixed baseline_kernel_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# sysctl parameters to apply. RECOMMENDED baseline — safe for most app servers.
+# Override or extend per environment. Each entry: key + value.
+baseline_kernel_sysctl_params:
+  # Network — reduce SYN flood risk
+  net.ipv4.tcp_syncookies: 1
+  net.ipv4.tcp_max_syn_backlog: 2048
+  net.ipv4.tcp_synack_retries: 2
+  net.ipv4.tcp_syn_retries: 5
+  # Prevent IP spoofing
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
+  # Disable ICMP redirects
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.accept_redirects: 0
+  # Memory — virtual memory overcommit
+  vm.overcommit_memory: 0
+  # Security — ASLR
+  kernel.randomize_va_space: 2
+  # Security — restrict dmesg
+  kernel.dmesg_restrict: 1
+  # File watches (needed by IDE/file watchers, inotify)
+  fs.inotify.max_user_watches: 524288
+
+# Kernel modules to blacklist. SECURITY-HARDENED. Empty = none.
+# Common candidates: usb-storage (USB disable), firewire-core, cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf
+baseline_kernel_blacklist_modules: []

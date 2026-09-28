@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: baseline_tuning
+  author: kriolu-kloud
+  description: Applies TCP stack, memory, and I/O scheduler performance sysctl tuning for application servers.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+    - name: Amazon
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - linux
+
+dependencies: []

@@ -1,0 +1,6 @@
+---
+- name: Reconfigure unattended-upgrades
+  ansible.builtin.command: dpkg-reconfigure -f noninteractive unattended-upgrades
+  listen: reconfigure unattended-upgrades
+  when: ansible_facts['os_family'] == 'Debian'
+  changed_when: true

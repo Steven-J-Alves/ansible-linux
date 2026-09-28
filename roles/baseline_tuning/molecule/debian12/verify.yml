@@ -1,0 +1,39 @@
+---
+- name: Verify baseline_tuning
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check tuning sysctl config file exists
+      ansible.builtin.stat:
+        path: /etc/sysctl.d/99-baseline-tuning.conf
+      register: baseline_tuning_sysctl_file
+
+    - name: Assert tuning sysctl config file exists
+      ansible.builtin.assert:
+        that:
+          - baseline_tuning_sysctl_file.stat.exists
+        fail_msg: "/etc/sysctl.d/99-baseline-tuning.conf not found"
+
+    - name: Read active somaxconn value
+      ansible.builtin.command: sysctl -n net.core.somaxconn
+      register: baseline_tuning_somaxconn_val
+      changed_when: false
+
+    - name: Assert somaxconn is tuned
+      ansible.builtin.assert:
+        that:
+          - baseline_tuning_somaxconn_val.stdout | trim | int >= 1024
+        fail_msg: "net.core.somaxconn is below 1024"
+
+    - name: Read active swappiness value
+      ansible.builtin.command: sysctl -n vm.swappiness
+      register: baseline_tuning_swappiness_val
+      changed_when: false
+
+    - name: Assert swappiness is reduced
+      ansible.builtin.assert:
+        that:
+          - baseline_tuning_swappiness_val.stdout | trim | int <= 20
+        fail_msg: "vm.swappiness is above 20"

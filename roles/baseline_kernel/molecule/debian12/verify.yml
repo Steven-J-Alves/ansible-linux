@@ -1,0 +1,39 @@
+---
+- name: Verify baseline_kernel
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check sysctl config file exists
+      ansible.builtin.stat:
+        path: /etc/sysctl.d/99-baseline-kernel.conf
+      register: baseline_kernel_sysctl_file
+
+    - name: Assert sysctl config file exists
+      ansible.builtin.assert:
+        that:
+          - baseline_kernel_sysctl_file.stat.exists
+        fail_msg: "/etc/sysctl.d/99-baseline-kernel.conf not found"
+
+    - name: Read active tcp_syncookies value
+      ansible.builtin.command: sysctl -n net.ipv4.tcp_syncookies
+      register: baseline_kernel_syncookies_val
+      changed_when: false
+
+    - name: Assert tcp_syncookies is enabled
+      ansible.builtin.assert:
+        that:
+          - baseline_kernel_syncookies_val.stdout | trim == '1'
+        fail_msg: "net.ipv4.tcp_syncookies is not 1"
+
+    - name: Read active randomize_va_space value
+      ansible.builtin.command: sysctl -n kernel.randomize_va_space
+      register: baseline_kernel_aslr_val
+      changed_when: false
+
+    - name: Assert ASLR is fully enabled
+      ansible.builtin.assert:
+        that:
+          - baseline_kernel_aslr_val.stdout | trim == '2'
+        fail_msg: "kernel.randomize_va_space is not 2"

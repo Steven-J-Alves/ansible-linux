@@ -1,0 +1,16 @@
+---
+# journald configuration is cross-family (same paths on Debian and RedHat).
+# Family dispatch only needed for rsyslog package name differences.
+
+- name: Configure systemd-journald
+  ansible.builtin.template:
+    src: journald.conf.j2
+    dest: /etc/systemd/journald.conf
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  notify: restart journald
+
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] }}.yml"

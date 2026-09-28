@@ -1,0 +1,19 @@
+---
+# Public API for baseline_systemd. All variables prefixed baseline_systemd_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# List of services to disable. ENVIRONMENT-DEPENDENT. Empty = none.
+# Only add services that are confirmed unnecessary on all target hosts.
+baseline_systemd_disable_services: []
+
+# List of services to mask (prevent from ever starting). SECURITY-HARDENED.
+# Masking is stronger than disable — use for services with known attack surface.
+baseline_systemd_mask_services: []
+
+# Set systemd default timeout for stopping services (seconds). RECOMMENDED.
+# Prevents slow service restarts from blocking deploys.
+baseline_systemd_default_timeout_stop_sec: 30
+
+# Restrict systemd-coredump. SECURITY-HARDENED.
+# Core dumps can contain sensitive data; restrict to root only.
+baseline_systemd_restrict_coredump: true

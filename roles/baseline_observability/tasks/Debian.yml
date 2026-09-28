@@ -1,0 +1,15 @@
+---
+- name: Install common diagnostic packages (Debian)
+  ansible.builtin.apt:
+    name: "{{ baseline_observability_packages_common + baseline_observability_packages_debian }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Enable sysstat collection
+  ansible.builtin.lineinfile:
+    path: /etc/default/sysstat
+    regexp: "^ENABLED="
+    line: 'ENABLED="true"'
+    backup: true
+  notify: restart sysstat

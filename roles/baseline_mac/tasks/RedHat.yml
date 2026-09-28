@@ -1,0 +1,14 @@
+---
+- name: Install SELinux tools (RedHat)
+  ansible.builtin.dnf:
+    name:
+      - selinux-policy
+      - selinux-policy-targeted
+      - policycoreutils
+      - policycoreutils-python-utils
+    state: present
+
+- name: Set SELinux state
+  ansible.posix.selinux:
+    policy: targeted
+    state: "{{ 'enforcing' if baseline_mac_enforcing else 'permissive' }}"

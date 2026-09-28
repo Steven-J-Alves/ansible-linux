@@ -1,0 +1,22 @@
+---
+- name: Ensure rsyslog is installed
+  ansible.builtin.dnf:
+    name: rsyslog
+    state: present
+
+- name: Ensure rsyslog is enabled and running
+  ansible.builtin.service:
+    name: rsyslog
+    enabled: true
+    state: started
+
+- name: Configure remote syslog forwarding (RedHat)
+  ansible.builtin.lineinfile:
+    path: /etc/rsyslog.conf
+    regexp: "^\\*\\.\\*.*{{ baseline_logging_remote_host }}"
+    line: "*.* {{ _at }}{{ baseline_logging_remote_host }}:{{ baseline_logging_remote_port }}"
+  vars:
+    _at: "{{ '@' if baseline_logging_remote_protocol == 'udp' else '@@' }}"
+    backup: true
+  when: baseline_logging_remote_host != ""
+  notify: restart rsyslog

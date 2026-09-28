@@ -1,0 +1,7 @@
+---
+# Family-based dispatch. Never inspect ansible_distribution here — new distros
+# of the same family (Rocky, AlmaLinux, Oracle Linux) all set ansible_os_family = 'RedHat'
+# and reuse the same tasks for free.
+
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] }}.yml"

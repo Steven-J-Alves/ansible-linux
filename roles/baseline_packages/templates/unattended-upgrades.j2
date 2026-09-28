@@ -1,0 +1,10 @@
+// Managed by Ansible — baseline_packages role.
+Unattended-Upgrade::Allowed-Origins {
+    "${distro_id}:${distro_codename}-security";
+};
+Unattended-Upgrade::AutoFixInterruptedDpkg "true";
+Unattended-Upgrade::Remove-Unused-Dependencies "{{ 'true' if baseline_packages_unattended_autoremove else 'false' }}";
+{% if baseline_packages_unattended_mail != "" %}
+Unattended-Upgrade::Mail "{{ baseline_packages_unattended_mail }}";
+Unattended-Upgrade::MailOnlyOnError "true";
+{% endif %}

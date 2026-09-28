@@ -1,0 +1,40 @@
+---
+- name: Verify baseline_users
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check deploy user exists
+      ansible.builtin.getent:
+        database: passwd
+        key: deploy
+      register: baseline_users_deploy_getent
+
+    - name: Assert deploy user exists
+      ansible.builtin.assert:
+        that:
+          - baseline_users_deploy_getent is not failed
+        fail_msg: "deploy user does not exist"
+
+    - name: Check sudoers file for deploy user
+      ansible.builtin.stat:
+        path: /etc/sudoers.d/deploy
+      register: baseline_users_sudoers_stat
+
+    - name: Assert sudoers entry exists
+      ansible.builtin.assert:
+        that:
+          - baseline_users_sudoers_stat.stat.exists
+        fail_msg: "/etc/sudoers.d/deploy not found"
+
+    - name: Read /etc/login.defs
+      ansible.builtin.slurp:
+        src: /etc/login.defs
+      register: baseline_users_logindefs_content
+
+    - name: Assert PASS_MAX_DAYS is set
+      ansible.builtin.assert:
+        that:
+          - "'PASS_MAX_DAYS' in baseline_users_logindefs_content.content | b64decode"
+        fail_msg: "PASS_MAX_DAYS not set in /etc/login.defs"

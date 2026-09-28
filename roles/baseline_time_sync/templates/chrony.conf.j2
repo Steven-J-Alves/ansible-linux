@@ -1,0 +1,14 @@
+# Managed by Ansible — baseline_time_sync role.
+{% for server in baseline_time_sync_ntp_servers %}
+pool {{ server }} iburst
+{% endfor %}
+
+driftfile /var/lib/chrony/drift
+makestep {{ baseline_time_sync_makestep_threshold }} {{ baseline_time_sync_makestep_limit }}
+{% if baseline_time_sync_rtcsync %}
+rtcsync
+{% endif %}
+{% if baseline_time_sync_allow_cidr != "" %}
+allow {{ baseline_time_sync_allow_cidr }}
+{% endif %}
+logdir /var/log/chrony

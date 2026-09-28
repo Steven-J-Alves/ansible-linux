@@ -1,0 +1,34 @@
+---
+- name: Verify baseline_limits
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Read /etc/security/limits.conf
+      ansible.builtin.slurp:
+        src: /etc/security/limits.conf
+      register: baseline_limits_conf_content
+
+    - name: Assert nofile limit is set
+      ansible.builtin.assert:
+        that:
+          - "'nofile' in baseline_limits_conf_content.content | b64decode"
+        fail_msg: "nofile limit not found in /etc/security/limits.conf"
+
+    - name: Assert nproc limit is set
+      ansible.builtin.assert:
+        that:
+          - "'nproc' in baseline_limits_conf_content.content | b64decode"
+        fail_msg: "nproc limit not found in /etc/security/limits.conf"
+
+    - name: Read /etc/systemd/system.conf
+      ansible.builtin.slurp:
+        src: /etc/systemd/system.conf
+      register: baseline_limits_systemd_conf
+
+    - name: Assert DefaultLimitNOFILE is set in systemd
+      ansible.builtin.assert:
+        that:
+          - "'DefaultLimitNOFILE=' in baseline_limits_systemd_conf.content | b64decode"
+        fail_msg: "DefaultLimitNOFILE not set in /etc/systemd/system.conf"

@@ -1,0 +1,28 @@
+---
+- name: Verify baseline_systemd
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Read /etc/systemd/system.conf
+      ansible.builtin.slurp:
+        src: /etc/systemd/system.conf
+      register: baseline_systemd_system_conf
+
+    - name: Assert DefaultTimeoutStopSec is set
+      ansible.builtin.assert:
+        that:
+          - "'DefaultTimeoutStopSec=' in baseline_systemd_system_conf.content | b64decode"
+        fail_msg: "DefaultTimeoutStopSec not found in /etc/systemd/system.conf"
+
+    - name: Check coredump config
+      ansible.builtin.stat:
+        path: /etc/systemd/coredump.conf
+      register: baseline_systemd_coredump_stat
+
+    - name: Assert coredump config exists
+      ansible.builtin.assert:
+        that:
+          - baseline_systemd_coredump_stat.stat.exists
+        fail_msg: "/etc/systemd/coredump.conf not found"

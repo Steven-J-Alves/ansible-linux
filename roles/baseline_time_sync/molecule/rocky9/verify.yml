@@ -1,0 +1,51 @@
+---
+- name: Verify baseline_time_sync
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Assert chrony service is running (Debian)
+      ansible.builtin.assert:
+        that:
+          - "'chrony.service' in ansible_facts.services"
+          - "ansible_facts.services['chrony.service'].state == 'running'"
+        fail_msg: "chrony service is not running"
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Assert chronyd service is running (RedHat)
+      ansible.builtin.assert:
+        that:
+          - "'chronyd.service' in ansible_facts.services"
+          - "ansible_facts.services['chronyd.service'].state == 'running'"
+        fail_msg: "chronyd service is not running"
+      when: ansible_facts['os_family'] == 'RedHat'
+
+    - name: Check chrony config exists (Debian)
+      ansible.builtin.stat:
+        path: /etc/chrony/chrony.conf
+      register: baseline_time_sync_conf_debian
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Assert chrony config exists (Debian)
+      ansible.builtin.assert:
+        that:
+          - baseline_time_sync_conf_debian.stat.exists
+        fail_msg: "/etc/chrony/chrony.conf not found"
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Check chrony config exists (RedHat)
+      ansible.builtin.stat:
+        path: /etc/chrony.conf
+      register: baseline_time_sync_conf_redhat
+      when: ansible_facts['os_family'] == 'RedHat'
+
+    - name: Assert chrony config exists (RedHat)
+      ansible.builtin.assert:
+        that:
+          - baseline_time_sync_conf_redhat.stat.exists
+        fail_msg: "/etc/chrony.conf not found"
+      when: ansible_facts['os_family'] == 'RedHat'

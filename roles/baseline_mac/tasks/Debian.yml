@@ -1,0 +1,23 @@
+---
+- name: Install AppArmor utils (Debian)
+  ansible.builtin.apt:
+    name:
+      - apparmor
+      - apparmor-utils
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Enable AppArmor service
+  ansible.builtin.service:
+    name: apparmor
+    enabled: true
+    state: started
+
+- name: Enforce specified AppArmor profiles
+  ansible.builtin.command: aa-enforce {{ item }}
+  loop: "{{ baseline_mac_apparmor_enforce_profiles }}"
+  when:
+    - baseline_mac_enforcing
+    - baseline_mac_apparmor_enforce_profiles | length > 0
+  changed_when: true

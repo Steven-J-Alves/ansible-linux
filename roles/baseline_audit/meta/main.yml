@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: baseline_audit
+  author: kriolu-kloud
+  description: Installs and configures auditd for system call auditing and fail2ban for brute-force protection.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+    - name: Amazon
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - linux
+
+dependencies: []

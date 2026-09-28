@@ -1,0 +1,54 @@
+---
+- name: Ensure deploy group exists
+  ansible.builtin.group:
+    name: "{{ baseline_users_deploy_name }}"
+    state: present
+    system: false
+  when: baseline_users_deploy_enabled
+
+- name: Create deploy user
+  ansible.builtin.user:
+    name: "{{ baseline_users_deploy_name }}"
+    uid: "{{ baseline_users_deploy_uid }}"
+    group: "{{ baseline_users_deploy_name }}"
+    groups: "{{ baseline_users_deploy_groups }}"
+    append: true
+    shell: "{{ baseline_users_deploy_shell }}"
+    create_home: true
+    state: present
+  when: baseline_users_deploy_enabled
+
+- name: Authorise SSH keys for deploy user
+  ansible.posix.authorized_key:
+    user: "{{ baseline_users_deploy_name }}"
+    key: "{{ item }}"
+    state: present
+  loop: "{{ baseline_users_deploy_ssh_keys }}"
+  when:
+    - baseline_users_deploy_enabled
+    - baseline_users_deploy_ssh_keys | length > 0
+
+- name: Configure sudo for deploy user
+  ansible.builtin.template:
+    src: sudoers_deploy.j2
+    dest: "/etc/sudoers.d/{{ baseline_users_deploy_name }}"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: "visudo -cf %s"
+  when: baseline_users_deploy_enabled
+
+- name: Set password policy in /etc/login.defs
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: "^{{ item.key }}"
+    line: "{{ item.key }}\t{{ item.value }}"
+    backup: true
+  loop:
+    - { key: "PASS_MIN_LEN", value: "{{ baseline_users_password_min_length }}" }
+    - { key: "PASS_MIN_DAYS", value: "{{ baseline_users_password_min_days }}" }
+    - { key: "PASS_MAX_DAYS", value: "{{ baseline_users_password_max_days }}" }
+    - { key: "PASS_WARN_AGE", value: "{{ baseline_users_password_warn_days }}" }
+
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] }}.yml"

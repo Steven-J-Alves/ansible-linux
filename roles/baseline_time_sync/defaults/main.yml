@@ -1,0 +1,21 @@
+---
+# Public API for baseline_time_sync. All variables prefixed baseline_time_sync_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# NTP server pool. RECOMMENDED. Adjust to regional pool for lower latency.
+baseline_time_sync_ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+# Maximum clock step allowed on startup (seconds). DEFAULT.
+# chrony: makestep <threshold> <limit> — step if offset > threshold in first <limit> updates.
+baseline_time_sync_makestep_threshold: 1.0
+baseline_time_sync_makestep_limit: 3
+
+# Sync hardware clock to system clock. RECOMMENDED.
+baseline_time_sync_rtcsync: true
+
+# Allow NTP clients from local network (empty = disabled). ENVIRONMENT-DEPENDENT.
+baseline_time_sync_allow_cidr: ""

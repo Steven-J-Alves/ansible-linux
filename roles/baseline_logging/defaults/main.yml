@@ -1,0 +1,22 @@
+---
+# Public API for baseline_logging. All variables prefixed baseline_logging_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# Maximum size of the journal on disk. RECOMMENDED. Prevents runaway log growth.
+baseline_logging_journal_max_use: "500M"
+
+# Maximum size per individual journal file. DEFAULT.
+baseline_logging_journal_max_file_size: "50M"
+
+# Number of days to keep journal files. DEFAULT. 0 = no limit (use max_use instead).
+baseline_logging_journal_max_retention_days: 0
+
+# Compress journal files on disk. RECOMMENDED.
+baseline_logging_journal_compress: true
+
+# Forward logs to a remote syslog host. ENVIRONMENT-DEPENDENT. Empty = disabled.
+baseline_logging_remote_host: ""
+
+# Remote syslog port and protocol. DEFAULT.
+baseline_logging_remote_port: 514
+baseline_logging_remote_protocol: "udp"

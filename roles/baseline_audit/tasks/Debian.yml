@@ -1,0 +1,50 @@
+---
+- name: Install auditd (Debian)
+  ansible.builtin.apt:
+    name: auditd
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  when: baseline_audit_auditd_enabled
+
+- name: Configure auditd (Debian)
+  ansible.builtin.template:
+    src: auditd.conf.j2
+    dest: /etc/audit/auditd.conf
+    owner: root
+    group: root
+    mode: "0640"
+    backup: true
+  when: baseline_audit_auditd_enabled
+  notify: restart auditd
+
+- name: Enable auditd (Debian)
+  ansible.builtin.service:
+    name: auditd
+    enabled: true
+    state: started
+  when: baseline_audit_auditd_enabled
+
+- name: Install fail2ban (Debian)
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+  when: baseline_audit_fail2ban_enabled
+
+- name: Configure fail2ban jail.local (Debian)
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  when: baseline_audit_fail2ban_enabled
+  notify: restart fail2ban
+
+- name: Enable fail2ban (Debian)
+  ansible.builtin.service:
+    name: fail2ban
+    enabled: true
+    state: started
+  when: baseline_audit_fail2ban_enabled

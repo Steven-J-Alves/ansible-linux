@@ -1,0 +1,7 @@
+---
+# Ensure shadow group exists on RedHat (it may not by default).
+- name: Ensure shadow group exists
+  ansible.builtin.group:
+    name: shadow
+    state: present
+    system: true

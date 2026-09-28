@@ -1,0 +1,43 @@
+---
+# Public API for baseline_ssh. All variables prefixed baseline_ssh_.
+# ⚠  LOCKOUT RISK: always run with --check --diff before applying to production.
+
+# SSH port. ENVIRONMENT-DEPENDENT. Change before applying if non-standard.
+baseline_ssh_port: 22
+
+# Disable root login. SECURITY-HARDENED. Set 'prohibit-password' to allow key-only root.
+baseline_ssh_permit_root_login: "no"
+
+# Disable password authentication. SECURITY-HARDENED.
+# Requires all users to have SSH keys configured first.
+baseline_ssh_password_authentication: "no"
+
+# Permit empty passwords. SECURITY-HARDENED.
+baseline_ssh_permit_empty_passwords: "no"
+
+# Allow only specific users/groups. ENVIRONMENT-DEPENDENT.
+# Empty = all users may login (not recommended for production).
+baseline_ssh_allow_users: []
+baseline_ssh_allow_groups: []
+
+# SSH protocol idle timeout (seconds). RECOMMENDED.
+baseline_ssh_client_alive_interval: 300
+baseline_ssh_client_alive_count_max: 2
+
+# Max authentication attempts per connection. SECURITY-HARDENED.
+baseline_ssh_max_auth_tries: 3
+
+# Enable X11 forwarding. DEFAULT (disabled — reduces attack surface).
+baseline_ssh_x11_forwarding: "no"
+
+# Enable agent forwarding. DEFAULT (disabled).
+baseline_ssh_agent_forwarding: "no"
+
+# Permitted ciphers. SECURITY-HARDENED. Remove weak ciphers.
+baseline_ssh_ciphers: "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com"
+
+# Permitted MACs. SECURITY-HARDENED.
+baseline_ssh_macs: "hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com"
+
+# Permitted KexAlgorithms. SECURITY-HARDENED.
+baseline_ssh_kex_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256"

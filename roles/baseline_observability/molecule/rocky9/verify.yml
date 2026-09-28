@@ -1,0 +1,28 @@
+---
+- name: Verify baseline_observability
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Assert sysstat is installed
+      ansible.builtin.assert:
+        that:
+          - "'sysstat' in ansible_facts.packages"
+        fail_msg: "sysstat is not installed"
+
+    - name: Assert tcpdump is installed
+      ansible.builtin.assert:
+        that:
+          - "'tcpdump' in ansible_facts.packages"
+        fail_msg: "tcpdump is not installed"
+
+    - name: Assert strace is installed
+      ansible.builtin.assert:
+        that:
+          - "'strace' in ansible_facts.packages"
+        fail_msg: "strace is not installed"

@@ -1,0 +1,8 @@
+# Managed by Ansible — baseline_logging role.
+[Journal]
+SystemMaxUse={{ baseline_logging_journal_max_use }}
+SystemMaxFileSize={{ baseline_logging_journal_max_file_size }}
+{% if baseline_logging_journal_max_retention_days > 0 %}
+MaxRetentionSec={{ baseline_logging_journal_max_retention_days }}day
+{% endif %}
+Compress={{ 'yes' if baseline_logging_journal_compress else 'no' }}

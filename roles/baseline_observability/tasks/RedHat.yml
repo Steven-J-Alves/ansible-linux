@@ -1,0 +1,11 @@
+---
+- name: Install common diagnostic packages (RedHat)
+  ansible.builtin.dnf:
+    name: "{{ baseline_observability_packages_common + baseline_observability_packages_redhat }}"
+    state: present
+
+- name: Enable sysstat service (RedHat)
+  ansible.builtin.service:
+    name: sysstat
+    enabled: true
+    state: started

@@ -1,0 +1,7 @@
+---
+- name: Restart sysstat (Debian)
+  ansible.builtin.service:
+    name: sysstat
+    state: restarted
+  listen: restart sysstat
+  when: ansible_facts['os_family'] == 'Debian'

@@ -1,0 +1,34 @@
+---
+- name: Verify baseline_logging
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Assert systemd-journald is running
+      ansible.builtin.assert:
+        that:
+          - "'systemd-journald.service' in ansible_facts.services"
+          - "ansible_facts.services['systemd-journald.service'].state == 'running'"
+        fail_msg: "systemd-journald is not running"
+
+    - name: Assert rsyslog is running
+      ansible.builtin.assert:
+        that:
+          - "'rsyslog.service' in ansible_facts.services"
+          - "ansible_facts.services['rsyslog.service'].state == 'running'"
+        fail_msg: "rsyslog is not running"
+
+    - name: Read journald config
+      ansible.builtin.slurp:
+        src: /etc/systemd/journald.conf
+      register: baseline_logging_journald_conf
+
+    - name: Assert SystemMaxUse is set in journald.conf
+      ansible.builtin.assert:
+        that:
+          - "'SystemMaxUse=' in baseline_logging_journald_conf.content | b64decode"
+        fail_msg: "SystemMaxUse not found in /etc/systemd/journald.conf"

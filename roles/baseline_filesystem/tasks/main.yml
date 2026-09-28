@@ -1,0 +1,44 @@
+---
+# File system hardening — cross-family. Family-specific mount commands in sub-files.
+
+- name: Set permissions on /etc/passwd
+  ansible.builtin.file:
+    path: /etc/passwd
+    owner: root
+    group: root
+    mode: "0644"
+  when: baseline_filesystem_secure_permissions
+
+- name: Set permissions on /etc/shadow
+  ansible.builtin.file:
+    path: /etc/shadow
+    owner: root
+    group: "{{ 'shadow' if ansible_facts['os_family'] == 'Debian' else 'root' }}"
+    mode: "0640"
+  when: baseline_filesystem_secure_permissions
+
+- name: Set permissions on /etc/group
+  ansible.builtin.file:
+    path: /etc/group
+    owner: root
+    group: root
+    mode: "0644"
+  when: baseline_filesystem_secure_permissions
+
+- name: Set permissions on /etc/gshadow
+  ansible.builtin.file:
+    path: /etc/gshadow
+    owner: root
+    group: "{{ 'shadow' if ansible_facts['os_family'] == 'Debian' else 'root' }}"
+    mode: "0640"
+  when: baseline_filesystem_secure_permissions
+
+- name: Remove SUID/SGID bits from specified files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "a-s"
+  loop: "{{ baseline_filesystem_remove_suid }}"
+  when: baseline_filesystem_remove_suid | length > 0
+
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] }}.yml"

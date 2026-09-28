@@ -1,0 +1,6 @@
+# Managed by Ansible — baseline_users role.
+{% if baseline_users_deploy_nopasswd_sudo %}
+{{ baseline_users_deploy_name }} ALL=(ALL) NOPASSWD: ALL
+{% else %}
+{{ baseline_users_deploy_name }} ALL=(ALL) ALL
+{% endif %}

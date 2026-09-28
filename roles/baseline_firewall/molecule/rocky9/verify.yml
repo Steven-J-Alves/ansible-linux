@@ -1,0 +1,30 @@
+---
+- name: Verify baseline_firewall
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Assert UFW is active (Debian)
+      ansible.builtin.command: ufw status
+      register: baseline_firewall_ufw_status
+      changed_when: false
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Assert UFW shows active status (Debian)
+      ansible.builtin.assert:
+        that:
+          - "'active' in baseline_firewall_ufw_status.stdout"
+        fail_msg: "UFW is not active"
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Assert firewalld is running (RedHat)
+      ansible.builtin.assert:
+        that:
+          - "'firewalld.service' in ansible_facts.services"
+          - "ansible_facts.services['firewalld.service'].state == 'running'"
+        fail_msg: "firewalld is not running"
+      when: ansible_facts['os_family'] == 'RedHat'

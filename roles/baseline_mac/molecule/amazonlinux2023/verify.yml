@@ -1,0 +1,37 @@
+---
+- name: Verify baseline_mac
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Assert AppArmor service is running (Debian)
+      ansible.builtin.service_facts:
+      register: baseline_mac_service_facts_out
+
+    - name: Check AppArmor status (Debian)
+      ansible.builtin.command: apparmor_status --json
+      register: baseline_mac_apparmor_status
+      changed_when: false
+      failed_when: false
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Assert AppArmor is loaded (Debian)
+      ansible.builtin.assert:
+        that:
+          - baseline_mac_apparmor_status.rc == 0
+        fail_msg: "AppArmor is not loaded"
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Check SELinux status (RedHat)
+      ansible.builtin.command: getenforce
+      register: baseline_mac_selinux_status
+      changed_when: false
+      when: ansible_facts['os_family'] == 'RedHat'
+
+    - name: Assert SELinux is not disabled (RedHat)
+      ansible.builtin.assert:
+        that:
+          - baseline_mac_selinux_status.stdout in ['Enforcing', 'Permissive']
+        fail_msg: "SELinux is Disabled"
+      when: ansible_facts['os_family'] == 'RedHat'

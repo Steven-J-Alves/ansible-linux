@@ -1,0 +1,141 @@
+<mxfile host="65bd71144e">
+    <diagram name="Molecule Test Flow" id="mol-test-flow">
+        <mxGraphModel dx="1257" dy="654" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1654" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="Molecule Test Flow — baseline_common / ubuntu2404" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="160" y="15" width="940" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg-build" value="PHASE 1 — BUILD" style="swimlane;startSize=24;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=2;fontSize=10;align=left;spacingLeft=8;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="55" width="1100" height="230" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg-host" value="HOST MACHINE" style="swimlane;startSize=24;fillColor=#f5f5f5;strokeColor=#333333;fontColor=#333333;fontStyle=1;fontSize=11;align=left;spacingLeft=8;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="300" width="1340" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg-ctrl" value="Control Container — ansible-linux-ctrl" style="swimlane;startSize=24;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#0050ef;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="55" y="335" width="480" height="490" as="geometry"/>
+                </mxCell>
+                <mxCell id="bg-test" value="Test Container — geerlingguy/docker-ubuntu2404-ansible" style="swimlane;startSize=24;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6a1b9a;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="335" width="760" height="490" as="geometry"/>
+                </mxCell>
+                <mxCell id="dev" value="Developer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="55" y="130" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="make" value="make molecule-test&#10;scenario=ubuntu2404" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="245" y="130" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="dbuild" value="docker build&#10;-t ansible-linux-ctrl ." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="130" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="note" value="FROM community-ansible-dev-tools&#10;(Fedora 44, ansible-core 2.21.4)&#10;+ docker-cli  (dnf)&#10;+ molecule-plugins[docker]==26.9.28&#10;+ collections (requirements.yml)" style="text;html=1;strokeColor=#d6b656;fillColor=#fffde7;align=left;verticalAlign=top;spacingLeft=6;fontSize=9;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="485" y="190" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="img" value="ansible-linux-ctrl&#10;(image ready)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="745" y="130" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ctrl-cmd" value="cd roles/baseline_common &amp;&amp; molecule test -s ubuntu2404" style="text;html=1;strokeColor=#6c8ebf;fillColor=#ffffff;align=center;verticalAlign=middle;fontSize=10;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="370" width="450" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s1" value="1  dependency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="425" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s2" value="2  destroy  (pre-clean)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="473" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3" value="3  create" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="521" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s4" value="4  converge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="569" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s5" value="5  idempotence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="617" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s6" value="6  verify" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="665" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="s7" value="7  destroy  (cleanup)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="713" width="220" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="result" value="✓  PASSED&#10;failed=0  ·  changed=0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="713" width="200" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc-info" value="Image: geerlingguy/docker-ubuntu2404-ansible&#10;• systemd as PID 1  (privileged mode)&#10;• cgroupns_mode: host&#10;• /sys/fs/cgroup:/sys/fs/cgroup:rw&#10;• Ansible connects via docker CLI  (no SSH)" style="text;html=1;strokeColor=#9673a6;fillColor=#f3e8ff;align=left;verticalAlign=top;spacingLeft=8;fontSize=9;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="365" width="420" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc1" value="Container spawned · systemd running" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="516" width="270" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc2" value="Role applied: hostname · timezone · MOTD&#10;locale · base packages installed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="562" width="270" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc3" value="Role re-applied → changed=0  ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="613" width="270" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc4" value="verify.yml assertions:&#10;timezone=UTC  ·  MOTD mode 0644&#10;curl+wget present  ·  LANG= in locale" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="657" width="270" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="tc5" value="Container removed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="715" width="270" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="dev" target="make" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="make" target="dbuild" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" parent="1" source="dbuild" target="img" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="note" target="dbuild" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="docker run -v /project -v docker.sock" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="img" target="ctrl-cmd" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="845" y="285"/>
+                            <mxPoint x="295" y="285"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="ctrl-cmd" target="s1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s1s2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s1" target="s2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s2s3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s2" target="s3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s3s4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s3" target="s4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s4s5" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s4" target="s5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s5s6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s5" target="s6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s6s7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="s6" target="s7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s3tc1" value="spawns via docker.sock" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="s3" target="tc1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s4tc2" value="applies role" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="s4" target="tc2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s5tc3" value="reruns role" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="s5" target="tc3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s6tc4" value="runs verify.yml" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="s6" target="tc4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_s7tc5" value="removes container" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="s7" target="tc5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

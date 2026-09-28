@@ -1,0 +1,7 @@
+---
+- name: Ensure sudo is installed (Debian)
+  ansible.builtin.apt:
+    name: sudo
+    state: present
+    update_cache: true
+    cache_valid_time: 3600

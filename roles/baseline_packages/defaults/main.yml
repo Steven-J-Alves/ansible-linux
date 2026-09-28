@@ -1,0 +1,20 @@
+---
+# Public API for baseline_packages. All variables prefixed baseline_packages_.
+# DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT / SECURITY-HARDENED / PERFORMANCE-TUNED
+
+# Extra packages to install beyond the role defaults. ENVIRONMENT-DEPENDENT.
+baseline_packages_extra: []
+
+# Enable automatic security updates. RECOMMENDED.
+# Debian: unattended-upgrades. RedHat: dnf-automatic (security only).
+baseline_packages_auto_update_enabled: true
+
+# Unattended-upgrades: email recipient on error. ENVIRONMENT-DEPENDENT. Empty = disabled.
+baseline_packages_unattended_mail: ""
+
+# Unattended-upgrades: remove obsolete packages after upgrade. RECOMMENDED.
+baseline_packages_unattended_autoremove: true
+
+# dnf-automatic: which updates to apply automatically. SECURITY-HARDENED.
+# Options: security | default
+baseline_packages_dnf_apply_updates: "security"

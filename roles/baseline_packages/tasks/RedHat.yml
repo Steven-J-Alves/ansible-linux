@@ -1,0 +1,37 @@
+---
+# RedHat-family package management: dnf + dnf-automatic.
+
+- name: Install extra packages
+  ansible.builtin.dnf:
+    name: "{{ baseline_packages_extra }}"
+    state: present
+  when: baseline_packages_extra | length > 0
+
+- name: Install dnf-automatic
+  ansible.builtin.dnf:
+    name: dnf-automatic
+    state: present
+  when: baseline_packages_auto_update_enabled
+
+- name: Configure dnf-automatic
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/automatic.conf
+    regexp: "^apply_updates"
+    line: "apply_updates = {{ 'yes' if baseline_packages_dnf_apply_updates == 'default' else 'no' }}"
+    backup: true
+  when: baseline_packages_auto_update_enabled
+
+- name: Configure dnf-automatic upgrade type
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/automatic.conf
+    regexp: "^upgrade_type"
+    line: "upgrade_type = {{ baseline_packages_dnf_apply_updates }}"
+    backup: true
+  when: baseline_packages_auto_update_enabled
+
+- name: Enable dnf-automatic.timer
+  ansible.builtin.service:
+    name: dnf-automatic.timer
+    enabled: true
+    state: started
+  when: baseline_packages_auto_update_enabled

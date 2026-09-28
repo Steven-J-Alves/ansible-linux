@@ -1,0 +1,41 @@
+---
+- name: Verify baseline_ssh
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Check sshd_config exists
+      ansible.builtin.stat:
+        path: /etc/ssh/sshd_config
+      register: baseline_ssh_sshd_config_stat
+
+    - name: Assert sshd_config exists with mode 0600
+      ansible.builtin.assert:
+        that:
+          - baseline_ssh_sshd_config_stat.stat.exists
+          - baseline_ssh_sshd_config_stat.stat.mode == '0600'
+        fail_msg: "sshd_config missing or wrong mode"
+
+    - name: Read sshd_config
+      ansible.builtin.slurp:
+        src: /etc/ssh/sshd_config
+      register: baseline_ssh_sshd_config_content
+
+    - name: Assert PermitRootLogin is set to no
+      ansible.builtin.assert:
+        that:
+          - "'PermitRootLogin no' in baseline_ssh_sshd_config_content.content | b64decode"
+        fail_msg: "PermitRootLogin is not set to no"
+
+    - name: Assert PasswordAuthentication is disabled
+      ansible.builtin.assert:
+        that:
+          - "'PasswordAuthentication no' in baseline_ssh_sshd_config_content.content | b64decode"
+        fail_msg: "PasswordAuthentication is not set to no"
+
+    - name: Validate sshd config syntax
+      ansible.builtin.command: sshd -t
+      changed_when: false
+      register: baseline_ssh_config_validate
+      failed_when: baseline_ssh_config_validate.rc != 0

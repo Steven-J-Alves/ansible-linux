@@ -1,0 +1,20 @@
+---
+# sysctl and module blacklist — identical on Debian and RedHat families.
+
+- name: Apply sysctl parameters
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value | string }}"
+    state: present
+    reload: true
+    sysctl_file: /etc/sysctl.d/99-baseline-kernel.conf
+  loop: "{{ baseline_kernel_sysctl_params | dict2items }}"
+
+- name: Blacklist kernel modules
+  ansible.builtin.template:
+    src: blacklist.conf.j2
+    dest: /etc/modprobe.d/99-baseline-blacklist.conf
+    owner: root
+    group: root
+    mode: "0644"
+  when: baseline_kernel_blacklist_modules | length > 0

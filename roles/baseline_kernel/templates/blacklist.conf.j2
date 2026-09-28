@@ -1,0 +1,4 @@
+# Managed by Ansible — baseline_kernel role.
+{% for mod in baseline_kernel_blacklist_modules %}
+blacklist {{ mod }}
+{% endfor %}

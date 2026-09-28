@@ -1,0 +1,11 @@
+---
+# Public API for baseline_mac. All variables prefixed baseline_mac_.
+# ⚠  LOCKOUT RISK: enforcing SELinux can break apps. Always test in permissive first.
+
+# Enable MAC enforcement. SECURITY-HARDENED.
+# Set false to install tools and leave in permissive/complaining mode only.
+baseline_mac_enforcing: false
+
+# AppArmor profiles to set to enforce mode (Debian). SECURITY-HARDENED.
+# Empty = leave all profiles in their current mode (default install mode).
+baseline_mac_apparmor_enforce_profiles: []

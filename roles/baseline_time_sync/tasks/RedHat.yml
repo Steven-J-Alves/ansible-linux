@@ -1,0 +1,21 @@
+---
+- name: Install chrony
+  ansible.builtin.dnf:
+    name: chrony
+    state: present
+
+- name: Configure chrony
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  notify: restart chrony
+
+- name: Enable and start chronyd
+  ansible.builtin.service:
+    name: chronyd
+    enabled: true
+    state: started

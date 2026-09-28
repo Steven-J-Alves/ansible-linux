@@ -1,0 +1,31 @@
+---
+# Public API for baseline_users. All variables prefixed baseline_users_.
+
+# Create a dedicated deploy/ops user. RECOMMENDED.
+baseline_users_deploy_enabled: true
+baseline_users_deploy_name: "deploy"
+baseline_users_deploy_uid: 1001
+baseline_users_deploy_groups:
+  - sudo     # Debian
+  - wheel    # RedHat
+baseline_users_deploy_shell: /bin/bash
+
+# SSH public keys to authorise for the deploy user. ENVIRONMENT-DEPENDENT.
+# Must be set before applying in production.
+baseline_users_deploy_ssh_keys: []
+
+# Allow deploy user to sudo without password. SECURITY-HARDENED.
+# Set false in production — require password.
+baseline_users_deploy_nopasswd_sudo: false
+
+# Password minimum length policy. SECURITY-HARDENED.
+baseline_users_password_min_length: 14
+
+# Password minimum days before change allowed. SECURITY-HARDENED.
+baseline_users_password_min_days: 1
+
+# Password maximum age in days. SECURITY-HARDENED.
+baseline_users_password_max_days: 90
+
+# Warn user N days before password expiry. DEFAULT.
+baseline_users_password_warn_days: 7

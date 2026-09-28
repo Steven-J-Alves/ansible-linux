@@ -1,0 +1,39 @@
+---
+# UFW configuration for Debian-family hosts.
+
+- name: Install UFW
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Set UFW default input policy
+  community.general.ufw:
+    direction: incoming
+    default: "{{ baseline_firewall_default_input_policy }}"
+
+- name: Set UFW default output policy
+  community.general.ufw:
+    direction: outgoing
+    default: "{{ baseline_firewall_default_output_policy }}"
+
+- name: Allow inbound TCP ports
+  community.general.ufw:
+    rule: allow
+    port: "{{ item | string }}"
+    proto: tcp
+  loop: "{{ baseline_firewall_allowed_tcp_ports }}"
+
+- name: Allow inbound UDP ports
+  community.general.ufw:
+    rule: allow
+    port: "{{ item | string }}"
+    proto: udp
+  loop: "{{ baseline_firewall_allowed_udp_ports }}"
+  when: baseline_firewall_allowed_udp_ports | length > 0
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+  when: baseline_firewall_enabled

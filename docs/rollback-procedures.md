@@ -77,3 +77,255 @@ grep LANG /etc/locale.conf
 # Packages
 curl --version && wget --version
 ```
+
+### baseline_packages
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_time_sync
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_logging
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_limits
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_kernel
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_filesystem
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_systemd
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_observability
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_users
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_ssh
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_firewall
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_audit
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_mac
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
+
+### baseline_tuning
+
+**Changed:**
+- TODO
+
+**Undo:**
+```bash
+# TODO
+```
+
+**Backup location:**
+- TODO
+
+**Validate:**
+```bash
+# TODO
+```
