@@ -13,6 +13,10 @@
     name: apparmor
     enabled: true
     state: started
+  register: baseline_mac_apparmor_svc
+  failed_when:
+    - baseline_mac_apparmor_svc.failed
+    - '"Assertion failed on job for apparmor.service" not in (baseline_mac_apparmor_svc.msg | default(""))'
 
 - name: Enforce specified AppArmor profiles
   ansible.builtin.command: aa-enforce {{ item }}

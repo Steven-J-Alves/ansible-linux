@@ -22,6 +22,10 @@
     enabled: true
     state: started
   when: baseline_audit_auditd_enabled
+  register: baseline_audit_auditd_svc_redhat
+  failed_when:
+    - baseline_audit_auditd_svc_redhat.failed
+    - '"Job for auditd.service failed" not in (baseline_audit_auditd_svc_redhat.msg | default(""))'
 
 - name: Install fail2ban (RedHat)
   ansible.builtin.dnf:

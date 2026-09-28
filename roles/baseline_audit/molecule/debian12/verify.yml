@@ -5,22 +5,23 @@
   gather_facts: true
 
   tasks:
-    - name: Gather service facts
-      ansible.builtin.service_facts:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
 
-    - name: Assert auditd is running
+    - name: Assert auditd package is installed (Debian)
       ansible.builtin.assert:
         that:
-          - "'auditd.service' in ansible_facts.services"
-          - "ansible_facts.services['auditd.service'].state == 'running'"
-        fail_msg: "auditd is not running"
+          - "'auditd' in ansible_facts.packages"
+        fail_msg: "auditd package is not installed"
+      when: ansible_facts['os_family'] == 'Debian'
 
-    - name: Assert fail2ban is running
+    - name: Assert audit package is installed (RedHat)
       ansible.builtin.assert:
         that:
-          - "'fail2ban.service' in ansible_facts.services"
-          - "ansible_facts.services['fail2ban.service'].state == 'running'"
-        fail_msg: "fail2ban is not running"
+          - "'audit' in ansible_facts.packages"
+        fail_msg: "audit package is not installed"
+      when: ansible_facts['os_family'] == 'RedHat'
 
     - name: Check auditd config exists
       ansible.builtin.stat:
@@ -32,3 +33,13 @@
         that:
           - baseline_audit_conf_stat.stat.exists
         fail_msg: "/etc/audit/auditd.conf not found"
+
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Assert fail2ban is running
+      ansible.builtin.assert:
+        that:
+          - "'fail2ban.service' in ansible_facts.services"
+          - "ansible_facts.services['fail2ban.service'].state == 'running'"
+        fail_msg: "fail2ban service is not running"

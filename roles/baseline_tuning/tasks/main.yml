@@ -6,9 +6,11 @@
     name: "{{ item.key }}"
     value: "{{ item.value | string }}"
     state: present
-    reload: true
+    sysctl_set: false
+    reload: false
     sysctl_file: /etc/sysctl.d/99-baseline-tuning.conf
   loop: "{{ baseline_tuning_sysctl_params | dict2items }}"
+  notify: reload sysctl tuning
 
 - name: Set I/O scheduler for block device
   ansible.builtin.shell:

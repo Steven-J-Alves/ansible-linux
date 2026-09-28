@@ -2,6 +2,9 @@
 # ⚠  LOCKOUT RISK: This role modifies sshd_config. Run --check first.
 # The handler restarts sshd only after the config passes `sshd -t` validation.
 
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] }}.yml"
+
 - name: Configure sshd
   ansible.builtin.template:
     src: sshd_config.j2

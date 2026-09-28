@@ -1,2 +1,13 @@
 ---
-# No family-specific sshd tasks required.
+- name: Install openssh-server (RedHat)
+  ansible.builtin.dnf:
+    name: openssh-server
+    state: present
+
+- name: Ensure sshd privilege separation directory exists
+  ansible.builtin.file:
+    path: /run/sshd
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"

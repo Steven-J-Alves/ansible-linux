@@ -5,9 +5,7 @@
 baseline_users_deploy_enabled: true
 baseline_users_deploy_name: "deploy"
 baseline_users_deploy_uid: 1001
-baseline_users_deploy_groups:
-  - sudo     # Debian
-  - wheel    # RedHat
+baseline_users_deploy_groups: []
 baseline_users_deploy_shell: /bin/bash
 
 # SSH public keys to authorise for the deploy user. ENVIRONMENT-DEPENDENT.

@@ -11,7 +11,7 @@
     name: "{{ baseline_users_deploy_name }}"
     uid: "{{ baseline_users_deploy_uid }}"
     group: "{{ baseline_users_deploy_name }}"
-    groups: "{{ baseline_users_deploy_groups }}"
+    groups: "{{ baseline_users_deploy_groups + (['sudo'] if ansible_facts['os_family'] == 'Debian' else ['wheel']) }}"
     append: true
     shell: "{{ baseline_users_deploy_shell }}"
     create_home: true

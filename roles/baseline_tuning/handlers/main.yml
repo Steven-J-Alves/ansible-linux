@@ -1,2 +1,5 @@
 ---
-# No handlers needed — sysctl changes apply immediately.
+- name: Reload sysctl tuning
+  ansible.builtin.command: sysctl -p /etc/sysctl.d/99-baseline-tuning.conf
+  listen: reload sysctl tuning
+  changed_when: true
