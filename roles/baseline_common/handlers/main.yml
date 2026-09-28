@@ -5,5 +5,5 @@
 - name: Generate locales
   ansible.builtin.command: locale-gen
   listen: generate locales
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
   changed_when: true
