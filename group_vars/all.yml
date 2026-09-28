@@ -1,0 +1,6 @@
+---
+# Global defaults, distro-agnostic. Overridden by per-family files
+# (debian_family.yml, redhat_family.yml) and by inventories/<env>/group_vars/all.yml.
+
+# Minimum Lynis hardening index accepted by Molecule verify.yml.
+baseline_lynis_min_score: 75

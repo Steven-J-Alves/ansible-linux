@@ -1,0 +1,13 @@
+---
+# Security-only subset — roles that harden without changing operational behaviour.
+- name: Apply hardening-only subset
+  hosts: all
+  become: true
+  gather_facts: true
+  # TODO: subset of baseline.yml focused on security
+  # - baseline_users
+  # - baseline_ssh
+  # - baseline_firewall
+  # - baseline_audit
+  # - baseline_mac
+  roles: []

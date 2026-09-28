@@ -1,0 +1,42 @@
+---
+# Public API for baseline_common. Every variable prefixed baseline_common_ to avoid
+# cross-role collisions. Categories: DEFAULT / RECOMMENDED / ENVIRONMENT-DEPENDENT /
+# SECURITY-HARDENED / PERFORMANCE-TUNED. See docs/categories.md.
+
+# Server hostname. ENVIRONMENT-DEPENDENT. Set per host in inventories/<env>/host_vars/.
+# Empty string = keep the current hostname (e.g. set by cloud-init).
+baseline_common_hostname: ""
+
+# System timezone. RECOMMENDED. UTC avoids DST confusion in logs across datacentres.
+# Any tz identifier from `timedatectl list-timezones` is valid.
+baseline_common_timezone: "UTC"
+
+# System locale. RECOMMENDED. en_US.UTF-8 is the safe default for application servers.
+# Changing on a running system requires a re-login for shell sessions to pick it up.
+baseline_common_locale: "en_US.UTF-8"
+
+# Locale langpack package on RedHat-family hosts. DEFAULT. Derived from the locale value;
+# override if the locale requires a different langpack (e.g. pt_PT.UTF-8 → glibc-langpack-pt).
+baseline_common_locale_package_redhat: "glibc-langpack-en"
+
+# Whether to manage /etc/motd. RECOMMENDED. Set false to leave MOTD to the provisioner.
+baseline_common_motd_enabled: true
+
+# MOTD content written to /etc/motd. ENVIRONMENT-DEPENDENT. Override per environment.
+baseline_common_motd_message: |
+  Managed by Ansible — ansible-linux baseline.
+  Unauthorised access is prohibited.
+
+# Packages installed on every host regardless of OS role. RECOMMENDED. Cross-family safe.
+# These are universal operational tools; application-specific packages go in extra_packages.
+baseline_common_packages:
+  - curl
+  - wget
+  - vim
+  - htop
+  - unzip
+  - ca-certificates
+
+# Additional packages the operator wants on every host. ENVIRONMENT-DEPENDENT.
+# Override per environment or per host_vars. Must exist in the target distro's repos.
+baseline_common_extra_packages: []

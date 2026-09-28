@@ -1,0 +1,9 @@
+---
+# Handlers use 'listen:' so task files can notify by topic without knowing
+# the concrete command for each family.
+
+- name: Generate locales
+  ansible.builtin.command: locale-gen
+  listen: generate locales
+  when: ansible_os_family == 'Debian'
+  changed_when: true

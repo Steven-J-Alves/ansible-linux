@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: baseline_common
+  author: kriolu-kloud
+  description: Sets hostname, timezone, locale, MOTD, and installs base packages on Debian and RedHat family hosts.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bookworm
+    - name: EL
+      versions:
+        - "9"
+    - name: Amazon
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - linux
+
+dependencies: []

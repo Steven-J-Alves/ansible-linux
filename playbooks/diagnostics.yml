@@ -1,0 +1,9 @@
+---
+# Installs / runs diagnostic tools (node_exporter, sysstat, iotop, tcpdump, etc.).
+- name: Deploy diagnostics stack
+  hosts: all
+  become: true
+  gather_facts: true
+  # TODO: diagnostic roles only
+  # - baseline_observability
+  roles: []

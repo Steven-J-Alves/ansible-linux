@@ -1,0 +1,23 @@
+---
+# Tasks for hosts where ansible_os_family == 'RedHat' (Rocky 9, RHEL 9, Amazon Linux 2023).
+
+- name: Install locale langpack
+  ansible.builtin.dnf:
+    name: "{{ baseline_common_locale_package_redhat }}"
+    state: present
+
+- name: Set default locale
+  ansible.builtin.lineinfile:
+    path: /etc/locale.conf
+    regexp: "^LANG="
+    line: "LANG={{ baseline_common_locale }}"
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+
+- name: Install base packages
+  ansible.builtin.dnf:
+    name: "{{ baseline_common_packages + baseline_common_extra_packages }}"
+    state: present

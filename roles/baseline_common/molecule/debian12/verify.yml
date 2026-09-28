@@ -1,0 +1,82 @@
+---
+- name: Verify baseline_common
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Get timezone abbreviation
+      ansible.builtin.command: date +%Z
+      register: baseline_common_tz_abbr
+      changed_when: false
+
+    - name: Assert timezone is UTC
+      ansible.builtin.assert:
+        that:
+          - baseline_common_tz_abbr.stdout in ['UTC', 'GMT']
+        fail_msg: "Timezone is {{ baseline_common_tz_abbr.stdout }}, expected UTC or GMT"
+
+    - name: Check MOTD file
+      ansible.builtin.stat:
+        path: /etc/motd
+      register: baseline_common_motd_stat
+
+    - name: Assert MOTD exists with correct mode
+      ansible.builtin.assert:
+        that:
+          - baseline_common_motd_stat.stat.exists
+          - baseline_common_motd_stat.stat.mode == '0644'
+        fail_msg: "MOTD missing or wrong mode (got {{ baseline_common_motd_stat.stat.mode | default('absent') }})"
+
+    - name: Read MOTD content
+      ansible.builtin.slurp:
+        src: /etc/motd
+      register: baseline_common_motd_content
+
+    - name: Assert MOTD is not empty
+      ansible.builtin.assert:
+        that:
+          - baseline_common_motd_content.content | b64decode | length > 0
+        fail_msg: "MOTD file is empty"
+
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Assert curl is installed
+      ansible.builtin.assert:
+        that:
+          - "'curl' in ansible_facts.packages"
+        fail_msg: "curl is not installed"
+
+    - name: Assert wget is installed
+      ansible.builtin.assert:
+        that:
+          - "'wget' in ansible_facts.packages"
+        fail_msg: "wget is not installed"
+
+    - name: Check locale file (Debian)
+      ansible.builtin.slurp:
+        src: /etc/default/locale
+      register: baseline_common_debian_locale
+      when: ansible_os_family == 'Debian'
+
+    - name: Assert locale is set (Debian)
+      ansible.builtin.assert:
+        that:
+          - "'LANG=' in baseline_common_debian_locale.content | b64decode"
+        fail_msg: "No LANG entry in /etc/default/locale"
+      when: ansible_os_family == 'Debian'
+
+    - name: Check locale file (RedHat)
+      ansible.builtin.slurp:
+        src: /etc/locale.conf
+      register: baseline_common_redhat_locale
+      when: ansible_os_family == 'RedHat'
+
+    - name: Assert locale is set (RedHat)
+      ansible.builtin.assert:
+        that:
+          - "'LANG=' in baseline_common_redhat_locale.content | b64decode"
+        fail_msg: "No LANG entry in /etc/locale.conf"
+      when: ansible_os_family == 'RedHat'

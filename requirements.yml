@@ -1,0 +1,23 @@
+---
+# Pin every collection with '==' — never '>=' or '~>'.
+# Upgrading a version is a deliberate act, not accidental.
+#
+# Tool versions (pip install — pinned at project creation 2026-09-28):
+#   ansible-core    == 2.21.4
+#   ansible-lint    == 26.9.0
+#   molecule        == 26.9.0
+#   molecule-plugins == 26.9.28
+#
+# To install tools at pinned versions:
+#   pip install ansible-core==2.21.4 ansible-lint==26.9.0 molecule==26.9.0 molecule-plugins==26.9.28
+#
+# Collection versions below are the latest at project creation.
+# To verify before bumping: ansible-galaxy collection install <ns.name> --dry-run
+
+collections:
+  - name: ansible.posix
+    version: "==2.0.0"
+  - name: community.general
+    version: "==10.7.0"
+
+roles: []

@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: Include baseline_common
+      ansible.builtin.include_role:
+        name: baseline_common

@@ -1,0 +1,3 @@
+---
+# Overrides specific to the 'staging' environment.
+# Anything set here wins over group_vars/all.yml at project root.

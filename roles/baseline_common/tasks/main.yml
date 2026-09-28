@@ -1,0 +1,43 @@
+---
+# Cross-family tasks first, then dispatch to Debian.yml / RedHat.yml.
+# Never inspect ansible_distribution here — new distros in the same family reuse for free.
+
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ baseline_common_hostname }}"
+    use: systemd
+  when: baseline_common_hostname | length > 0
+
+- name: Add FQDN to /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1  {{ baseline_common_hostname }}"
+    backup: true
+  when: baseline_common_hostname | length > 0
+
+- name: Set system timezone
+  community.general.timezone:
+    name: "{{ baseline_common_timezone }}"
+
+- name: Write MOTD
+  ansible.builtin.copy:
+    content: "{{ baseline_common_motd_message }}"
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  when: baseline_common_motd_enabled
+
+- name: Clear MOTD
+  ansible.builtin.copy:
+    content: ""
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  when: not baseline_common_motd_enabled
+
+- name: Include family-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}.yml"

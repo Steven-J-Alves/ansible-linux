@@ -1,0 +1,4 @@
+---
+# Overrides specific to Amazon Linux 2023 (ansible_distribution == "Amazon Linux").
+# Most RHEL-family behaviour is handled by redhat_family.yml — only add here when
+# AL2023 genuinely differs from Rocky/RHEL (e.g. dnf vs yum, missing amazon-linux-extras).

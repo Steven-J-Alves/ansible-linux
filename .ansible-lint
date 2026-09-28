@@ -1,0 +1,16 @@
+---
+profile: production
+
+# Explicit path scoping — only lint what we own, not vendored collections.
+exclude_paths:
+  - collections/
+  - .molecule/
+  - .venv/
+
+# Skip nothing at project scope. If a specific role must skip a rule,
+# it should carry its own .ansible-lint under the role directory
+# (rare — prefer fixing the underlying issue).
+skip_list: []
+
+# Warnings surface but do not fail — real failures are the profile rules.
+warn_list: []

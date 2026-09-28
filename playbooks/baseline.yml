@@ -1,0 +1,26 @@
+---
+# Applies every baseline_* role to hosts in the target inventory.
+# Run this as the canonical "make a bare Linux host production-ready" entry point.
+
+- name: Apply baseline to all hosts
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - baseline_common
+    # TODO: append roles here in order of increasing risk (safe → lockout-risk).
+    # Suggested ordering:
+    # - baseline_packages
+    # - baseline_time_sync
+    # - baseline_logging
+    # - baseline_limits
+    # - baseline_kernel
+    # - baseline_filesystem
+    # - baseline_systemd
+    # - baseline_observability
+    # - baseline_users
+    # - baseline_ssh          # ⚠️ can lock you out — --check first
+    # - baseline_firewall     # ⚠️ can lock you out — --check first
+    # - baseline_audit
+    # - baseline_mac          # ⚠️ SELinux enforcing may break apps — careful
+    # - baseline_tuning

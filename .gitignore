@@ -1,0 +1,29 @@
+# Ansible
+*.retry
+*.log
+
+# Molecule
+.molecule/
+**/molecule/**/.molecule/
+
+# Collections / roles pulled by ansible-galaxy
+collections/
+!collections/.gitkeep
+
+# Secrets — decrypted vault files must never be committed
+**/*.decrypted.yml
+**/*.decrypted.yaml
+vault-password
+.vault_pass
+
+# Docker
+.dockerignore
+
+# Python / editor
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
+
+/files

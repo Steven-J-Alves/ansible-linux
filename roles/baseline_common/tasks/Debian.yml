@@ -1,0 +1,36 @@
+---
+# Tasks for hosts where ansible_os_family == 'Debian' (Ubuntu 24.04, Debian 12).
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install locales package
+  ansible.builtin.apt:
+    name: locales
+    state: present
+
+- name: Enable locale in /etc/locale.gen
+  ansible.builtin.lineinfile:
+    path: /etc/locale.gen
+    regexp: "^#?\\s*{{ baseline_common_locale | regex_escape }}"
+    line: "{{ baseline_common_locale }} UTF-8"
+    backup: true
+  notify: generate locales
+
+- name: Set default locale
+  ansible.builtin.lineinfile:
+    path: /etc/default/locale
+    regexp: "^LANG="
+    line: "LANG={{ baseline_common_locale }}"
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+
+- name: Install base packages
+  ansible.builtin.apt:
+    name: "{{ baseline_common_packages + baseline_common_extra_packages }}"
+    state: present
